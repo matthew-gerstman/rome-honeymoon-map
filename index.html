@@ -180,6 +180,16 @@
             margin-bottom: 8px;
         }
 
+        .all-days-hint {
+            color: #666;
+            font-size: 12px;
+            padding: 12px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #2a2a2a;
+        }
+
         #map {
             flex: 1;
             height: 100vh;
@@ -201,46 +211,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #505050;
         }
-
-        .info-window {
-            padding: 8px;
-            max-width: 280px;
-        }
-
-        .info-window-title {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 4px;
-            color: #111;
-        }
-
-        .info-window-address {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .info-window-day {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .info-window-time {
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: #111;
-        }
-
-        .info-window-notes {
-            font-size: 13px;
-            color: #444;
-        }
     </style>
 </head>
 <body>
@@ -254,7 +224,7 @@
             <div class="locations-container">
                 <h4 class="locations-title" id="dayTitle">Friday's Route</h4>
                 <div id="locationList"></div>
-                <div class="section-divider">
+                <div class="section-divider" id="hotelSection">
                     <p class="section-label">Your Base</p>
                     <div class="location-card" onclick="selectLocation('rome-cavalieri')">
                         <div class="location-content">
@@ -326,7 +296,7 @@
             Tuesday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9010, lng: 12.5024 }]
         };
 
-        let map, currentRoute, markers = {}, infoWindows = {}, selectedDay = 'Friday';
+        let map, currentRoute, markers = {}, infoWindows = {}, selectedDay = 'All Days';
 
         function initMap() {
             const darkStyles = [
@@ -356,7 +326,7 @@
                 fullscreenControl: true
             });
 
-            // Create day buttons (including "All Days" overview)
+            // Create day buttons
             const dayButtonsContainer = document.getElementById('dayButtons');
             Object.keys(dayColors).forEach(day => {
                 const count = day === 'All Days' ? locations.filter(l => l.day).length : locations.filter(l => l.day === day).length;
@@ -411,12 +381,13 @@
 
         function renderAllDays() {
             document.getElementById('dayTitle').textContent = 'All Locations';
-            document.getElementById('locationList').innerHTML = '<p style="color: #666; font-size: 12px; padding: 12px 0;">Click markers on map to see details</p>';
+            document.getElementById('hotelSection').style.display = 'none';
+            
+            const listContainer = document.getElementById('locationList');
+            listContainer.innerHTML = '<div class="all-days-hint">🗺️ All locations shown on map, color-coded by day. Click any marker to see details.</div>';
 
             // Show all locations, color-coded by day
             locations.forEach(loc => {
-                if (!loc.day) return; // Skip hotel for now
-
                 const marker = new google.maps.Marker({
                     position: { lat: loc.lat, lng: loc.lng },
                     map: map,
@@ -431,14 +402,16 @@
                     }
                 });
 
-                // Create info window
+                // Create info window with day color
                 const infoContent = `
-                    <div class="info-window">
-                        <h3 class="info-window-title">${loc.icon} ${loc.name}</h3>
-                        <p class="info-window-address">${loc.address}</p>
-                        <div class="info-window-day" style="background-color: ${dayColors[loc.day]}">${loc.day}</div>
-                        ${loc.time ? `<p class="info-window-time">⏰ ${loc.time}</p>` : ''}
-                        ${loc.notes ? `<p class="info-window-notes">${loc.notes}</p>` : ''}
+                    <div style="padding: 8px; max-width: 280px;">
+                        <h3 style="font-weight: 700; font-size: 16px; margin-bottom: 4px; color: #111;">
+                            ${loc.icon} ${loc.name}
+                        </h3>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 8px;">${loc.address}</p>
+                        ${loc.day ? `<div style="display: inline-block; padding: 4px 8px; border-radius: 4px; color: white; font-size: 11px; font-weight: 600; margin-bottom: 8px; background-color: ${dayColors[loc.day]}">${loc.day}</div>` : ''}
+                        ${loc.time ? `<p style="font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #111;">⏰ ${loc.time}</p>` : ''}
+                        ${loc.notes ? `<p style="font-size: 13px; color: #444;">${loc.notes}</p>` : ''}
                     </div>
                 `;
 
@@ -447,7 +420,6 @@
                 });
 
                 marker.addListener('click', () => {
-                    // Close all other info windows
                     Object.values(infoWindows).forEach(iw => iw.close());
                     infoWindow.open(map, marker);
                 });
@@ -455,42 +427,6 @@
                 markers[loc.id] = marker;
                 infoWindows[loc.id] = infoWindow;
             });
-
-            // Always show hotel
-            const hotel = locations.find(l => l.id === 'rome-cavalieri');
-            const hotelMarker = new google.maps.Marker({
-                position: { lat: hotel.lat, lng: hotel.lng },
-                map: map,
-                title: hotel.name,
-                label: {
-                    text: hotel.icon,
-                    fontSize: '28px'
-                },
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 0
-                }
-            });
-
-            const hotelInfoContent = `
-                <div class="info-window">
-                    <h3 class="info-window-title">${hotel.icon} ${hotel.name}</h3>
-                    <p class="info-window-address">${hotel.address}</p>
-                    <p class="info-window-notes">${hotel.notes}</p>
-                </div>
-            `;
-
-            const hotelInfoWindow = new google.maps.InfoWindow({
-                content: hotelInfoContent
-            });
-
-            hotelMarker.addListener('click', () => {
-                Object.values(infoWindows).forEach(iw => iw.close());
-                hotelInfoWindow.open(map, hotelMarker);
-            });
-
-            markers['rome-cavalieri'] = hotelMarker;
-            infoWindows['rome-cavalieri'] = hotelInfoWindow;
 
             // Fit bounds
             const bounds = new google.maps.LatLngBounds();
@@ -500,6 +436,7 @@
 
         function renderSingleDay(day) {
             document.getElementById('dayTitle').textContent = `${day}'s Route`;
+            document.getElementById('hotelSection').style.display = 'block';
 
             const dayLocations = locations.filter(l => l.day === day);
             dayLocations.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
@@ -564,15 +501,15 @@
             });
             markers['rome-cavalieri'] = hotelMarker;
 
-            // Draw route with SUBTLE styling
+            // Draw route with VERY SUBTLE styling - focus on destinations
             const route = dayRoutes[day];
             if (route && route.length > 0) {
                 currentRoute = new google.maps.Polyline({
                     path: route,
                     geodesic: true,
                     strokeColor: dayColors[day],
-                    strokeOpacity: 0.3,  // Much more subtle
-                    strokeWeight: 2,      // Thinner line
+                    strokeOpacity: 0.15,  // Very subtle - barely visible
+                    strokeWeight: 1.5,    // Thin line
                     map: map
                 });
             }
@@ -596,6 +533,12 @@
                 });
                 const card = document.getElementById(`card-${id}`);
                 if (card) card.classList.add('selected');
+
+                // Open info window if in All Days view
+                if (selectedDay === 'All Days' && infoWindows[id]) {
+                    Object.values(infoWindows).forEach(iw => iw.close());
+                    infoWindows[id].open(map, marker);
+                }
             }
         }
     </script>
