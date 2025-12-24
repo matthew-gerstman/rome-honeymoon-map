@@ -243,17 +243,17 @@
             });
             markers['rome-cavalieri'] = hotelMarker;
 
-            // BARELY visible route - NO ARROWS, just a faint hint
+            // BARELY visible route - NO ARROWS, just a faint dotted hint
             const route = dayRoutes[day];
             if (route && route.length > 0) {
                 currentRoute = new google.maps.Polyline({
                     path: route,
                     geodesic: true,
                     strokeColor: dayColors[day],
-                    strokeOpacity: 0.03,
-                    strokeWeight: 1,
-                    map: map
+                    strokeOpacity: 0.2,
+                    strokeWeight: 2
                 });
+                currentRoute.setMap(map);
             }
 
             const bounds = new google.maps.LatLngBounds();
