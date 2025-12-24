@@ -5,212 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rome Honeymoon Map - Matthew & Leah</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            overflow: hidden;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        .sidebar {
-            width: 320px;
-            background: #141414;
-            border-right: 1px solid #2a2a2a;
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
-
-        .sidebar-header {
-            padding: 16px;
-            border-bottom: 1px solid #2a2a2a;
-            position: sticky;
-            top: 0;
-            background: #141414;
-            z-index: 10;
-        }
-
-        .sidebar-title {
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .sidebar-subtitle {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 12px;
-        }
-
-        .day-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .day-button {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #1a1a1a;
-            color: #888;
-        }
-
-        .day-button:hover {
-            background: #222;
-            color: #aaa;
-        }
-
-        .day-button.active {
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .day-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .locations-container {
-            padding: 16px;
-        }
-
-        .locations-title {
-            font-weight: 600;
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .location-card {
-            width: 100%;
-            text-align: left;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            border: 1px solid #2a2a2a;
-            background: #1a1a1a;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .location-card:hover {
-            border-color: #3a3a3a;
-            background: #222;
-        }
-
-        .location-card.selected {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .location-content {
-            display: flex;
-            gap: 12px;
-        }
-
-        .location-icon {
-            font-size: 24px;
-        }
-
-        .location-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            margin-right: 8px;
-        }
-
-        .location-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .location-time {
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 4px;
-        }
-
-        .location-notes {
-            font-size: 11px;
-            color: #666;
-        }
-
-        .section-divider {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .section-label {
-            font-size: 11px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-        }
-
-        .all-days-hint {
-            color: #666;
-            font-size: 12px;
-            padding: 12px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 1px solid #2a2a2a;
-        }
-
-        #map {
-            flex: 1;
-            height: 100vh;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #404040;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #505050;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0a0a; color: #ffffff; overflow: hidden; }
+        .container { display: flex; height: 100vh; }
+        .sidebar { width: 320px; background: #141414; border-right: 1px solid #2a2a2a; overflow-y: auto; flex-shrink: 0; }
+        .sidebar-header { padding: 16px; border-bottom: 1px solid #2a2a2a; position: sticky; top: 0; background: #141414; z-index: 10; }
+        .sidebar-title { font-weight: 700; font-size: 18px; margin-bottom: 4px; }
+        .sidebar-subtitle { font-size: 12px; color: #888; margin-bottom: 12px; }
+        .day-buttons { display: flex; flex-direction: column; gap: 8px; }
+        .day-button { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: all 0.2s; background: #1a1a1a; color: #888; }
+        .day-button:hover { background: #222; color: #aaa; }
+        .day-button.active { color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .day-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .locations-container { padding: 16px; }
+        .locations-title { font-weight: 600; font-size: 11px; color: #888; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .location-card { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #2a2a2a; background: #1a1a1a; cursor: pointer; transition: all 0.2s; }
+        .location-card:hover { border-color: #3a3a3a; background: #222; }
+        .location-card.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .location-content { display: flex; gap: 12px; }
+        .location-icon { font-size: 24px; }
+        .location-number { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; margin-right: 8px; }
+        .location-name { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 4px; }
+        .location-time { font-size: 11px; color: #888; margin-bottom: 4px; }
+        .location-notes { font-size: 11px; color: #666; }
+        .section-divider { margin-top: 16px; padding-top: 16px; border-top: 1px solid #2a2a2a; }
+        .section-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .all-days-hint { color: #666; font-size: 12px; padding: 12px; background: #1a1a1a; border-radius: 8px; margin-bottom: 12px; border: 1px solid #2a2a2a; }
+        #map { flex: 1; height: 100vh; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #404040; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #505050; }
     </style>
 </head>
 <body>
@@ -222,7 +47,7 @@
                 <div class="day-buttons" id="dayButtons"></div>
             </div>
             <div class="locations-container">
-                <h4 class="locations-title" id="dayTitle">Friday's Route</h4>
+                <h4 class="locations-title" id="dayTitle">All Locations</h4>
                 <div id="locationList"></div>
                 <div class="section-divider" id="hotelSection">
                     <p class="section-label">Your Base</p>
@@ -242,8 +67,6 @@
     </div>
 
     <script>
-        const API_KEY = 'AIzaSyDP-v5ZNxoZ222ScPrDWY9iE3O2V2GhuMA';
-        
         const dayColors = {
             'All Days': '#888888',
             Thursday: '#9333EA',
@@ -255,44 +78,26 @@
         };
 
         const locations = [
-            { id: 'fco-airport', name: 'Rome FCO Airport', address: 'Fiumicino Airport, Rome', lat: 41.8003, lng: 12.2389, day: 'Thursday', time: '7:55 AM arrival', icon: '✈️', notes: 'Arrival from Syracuse via Detroit' },
-            { id: 'rome-cavalieri', name: 'Rome Cavalieri Hotel', address: 'Via Alberto Cadlolo 101', lat: 41.9284, lng: 12.4347, icon: '🏨', notes: 'Your base - hilltop location with panoramic views' },
-            { id: 'welcome-jungle', name: 'Welcome to the Jungle', address: 'Via Monte Zebio 44a', lat: 41.9146, lng: 12.4609, day: 'Friday', time: '12:00 PM', icon: '🎵', notes: 'Record store in Prati - 0.95 mi from hotel (walkable!)' },
-            { id: 'radiation-records', name: 'Radiation Records Pigneto', address: 'Via Rumanello da Forli 13', lat: 41.8881, lng: 12.5294, day: 'Friday', time: '2:00-3:30 PM', icon: '🎵', notes: 'Far east side - 3.92 mi from Welcome to the Jungle' },
-            { id: 'da-enzo', name: 'Da Enzo al 29', address: 'Via dei Vascellari 29', lat: 41.8865, lng: 12.4676, day: 'Friday', time: '5:00-6:00 PM walk-in', icon: '🍝', notes: 'Trastevere - 2.65 mi from Radiation Records' },
-            { id: 'nonnas-pasta', name: "Nonna's Pasta Class", address: 'Piazzale Pino Pascali 18', lat: 41.8276, lng: 12.4761, day: 'Saturday', time: '12:30 PM', icon: '👵', notes: 'Handmade pasta with Grandma - 6.81 mi from hotel' },
+            { id: 'fco-airport', name: 'Rome FCO Airport', address: 'Fiumicino Airport', lat: 41.8003, lng: 12.2389, day: 'Thursday', time: '7:55 AM', icon: '✈️', notes: 'Arrival from Syracuse via Detroit' },
+            { id: 'rome-cavalieri', name: 'Rome Cavalieri Hotel', address: 'Via Alberto Cadlolo 101', lat: 41.9284, lng: 12.4347, icon: '🏨', notes: 'Your base - hilltop with panoramic views' },
+            { id: 'welcome-jungle', name: 'Welcome to the Jungle', address: 'Via Monte Zebio 44a', lat: 41.9146, lng: 12.4609, day: 'Friday', time: '12:00 PM', icon: '🎵', notes: 'Record store in Prati - 0.95 mi from hotel' },
+            { id: 'radiation-records', name: 'Radiation Records Pigneto', address: 'Via Rumanello da Forli 13', lat: 41.8881, lng: 12.5294, day: 'Friday', time: '2:00 PM', icon: '🎵', notes: 'Far east - 3.92 mi from Welcome to Jungle' },
+            { id: 'da-enzo', name: 'Da Enzo al 29', address: 'Via dei Vascellari 29', lat: 41.8865, lng: 12.4676, day: 'Friday', time: '5:00 PM', icon: '🍝', notes: 'Trastevere walk-in - 2.65 mi from Radiation' },
+            { id: 'nonnas-pasta', name: "Nonna's Pasta Class", address: 'Piazzale Pino Pascali 18', lat: 41.8276, lng: 12.4761, day: 'Saturday', time: '12:30 PM', icon: '👵', notes: 'Handmade pasta - 6.81 mi from hotel' },
             { id: 'porta-portese', name: 'Porta Portese Market', address: 'Piazza di Porta Portese', lat: 41.8822, lng: 12.4716, day: 'Sunday', time: '11:00 AM', icon: '🛍️', notes: 'Famous flea market in Trastevere' },
-            { id: 'felice-testaccio', name: 'Felice a Testaccio', address: 'Via Pietro Micca 17', lat: 41.8785, lng: 12.4771, day: 'Sunday', time: '7:30-9:30 PM', icon: '🍝', notes: 'Dinner reservation in Testaccio' },
-            { id: 'vatican', name: 'Vatican Museums', address: 'Viale Vaticano', lat: 41.9065, lng: 12.4536, day: 'Monday', time: '2:00-5:00 PM', icon: '🏛️', notes: 'Vatican tour - 1.22 mi from hotel (walkable!)' },
-            { id: 'la-pergola', name: 'La Pergola', address: 'At Rome Cavalieri Hotel', lat: 41.9284, lng: 12.4347, day: 'Monday', time: '7:00 PM', icon: '⭐', notes: '3 Michelin stars - at your hotel! 10-course tasting menu' },
+            { id: 'felice-testaccio', name: 'Felice a Testaccio', address: 'Via Pietro Micca 17', lat: 41.8785, lng: 12.4771, day: 'Sunday', time: '7:30 PM', icon: '🍝', notes: 'Dinner reservation in Testaccio' },
+            { id: 'vatican', name: 'Vatican Museums', address: 'Viale Vaticano', lat: 41.9065, lng: 12.4536, day: 'Monday', time: '2:00 PM', icon: '🏛️', notes: 'Vatican tour - 1.22 mi from hotel' },
+            { id: 'la-pergola', name: 'La Pergola', address: 'At Rome Cavalieri Hotel', lat: 41.9284, lng: 12.4347, day: 'Monday', time: '7:00 PM', icon: '⭐', notes: '3 Michelin stars - 10-course tasting' },
             { id: 'drink-kong', name: 'Drink Kong', address: 'Viale di Trastevere 1', lat: 41.8901, lng: 12.4713, day: 'Monday', time: '9:30 PM', icon: '🍸', notes: 'Cocktails after La Pergola' },
-            { id: 'roma-termini', name: 'Roma Termini Station', address: 'Piazza dei Cinquecento', lat: 41.9010, lng: 12.5024, day: 'Tuesday', time: '12:00 PM checkout', icon: '🚂', notes: 'Train to Florence (Firenze SMN) - ~1h 30m' }
+            { id: 'roma-termini', name: 'Roma Termini Station', address: 'Piazza dei Cinquecento', lat: 41.9010, lng: 12.5024, day: 'Tuesday', time: '12:00 PM', icon: '🚂', notes: 'Train to Florence - ~1h 30m' }
         ];
 
         const dayRoutes = {
             Thursday: [{ lat: 41.8003, lng: 12.2389 }, { lat: 41.9284, lng: 12.4347 }],
-            Friday: [
-                { lat: 41.9284, lng: 12.4347 },
-                { lat: 41.9146, lng: 12.4609 },
-                { lat: 41.8881, lng: 12.5294 },
-                { lat: 41.8865, lng: 12.4676 },
-                { lat: 41.9284, lng: 12.4347 }
-            ],
+            Friday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9146, lng: 12.4609 }, { lat: 41.8881, lng: 12.5294 }, { lat: 41.8865, lng: 12.4676 }, { lat: 41.9284, lng: 12.4347 }],
             Saturday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.8276, lng: 12.4761 }, { lat: 41.9284, lng: 12.4347 }],
-            Sunday: [
-                { lat: 41.9284, lng: 12.4347 },
-                { lat: 41.8822, lng: 12.4716 },
-                { lat: 41.9284, lng: 12.4347 },
-                { lat: 41.8785, lng: 12.4771 },
-                { lat: 41.9284, lng: 12.4347 }
-            ],
-            Monday: [
-                { lat: 41.9284, lng: 12.4347 },
-                { lat: 41.9065, lng: 12.4536 },
-                { lat: 41.9284, lng: 12.4347 },
-                { lat: 41.8901, lng: 12.4713 },
-                { lat: 41.9284, lng: 12.4347 }
-            ],
+            Sunday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.8822, lng: 12.4716 }, { lat: 41.9284, lng: 12.4347 }, { lat: 41.8785, lng: 12.4771 }, { lat: 41.9284, lng: 12.4347 }],
+            Monday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9065, lng: 12.4536 }, { lat: 41.9284, lng: 12.4347 }, { lat: 41.8901, lng: 12.4713 }, { lat: 41.9284, lng: 12.4347 }],
             Tuesday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9010, lng: 12.5024 }]
         };
 
@@ -326,20 +131,13 @@
                 fullscreenControl: true
             });
 
-            // Create day buttons
             const dayButtonsContainer = document.getElementById('dayButtons');
             Object.keys(dayColors).forEach(day => {
                 const count = day === 'All Days' ? locations.filter(l => l.day).length : locations.filter(l => l.day === day).length;
                 const btn = document.createElement('button');
                 btn.className = 'day-button' + (day === selectedDay ? ' active' : '');
                 btn.style.backgroundColor = day === selectedDay ? dayColors[day] : '';
-                btn.innerHTML = `
-                    <span style="display: flex; align-items: center;">
-                        <span class="day-dot" style="background-color: ${dayColors[day]}"></span>
-                        ${day}
-                    </span>
-                    <span style="font-size: 11px; opacity: 0.75;">${count}</span>
-                `;
+                btn.innerHTML = `<span style="display: flex; align-items: center;"><span class="day-dot" style="background-color: ${dayColors[day]}"></span>${day}</span><span style="font-size: 11px; opacity: 0.75;">${count}</span>`;
                 btn.onclick = () => selectDay(day);
                 dayButtonsContainer.appendChild(btn);
             });
@@ -349,7 +147,6 @@
 
         function selectDay(day) {
             selectedDay = day;
-            
             document.querySelectorAll('.day-button').forEach((btn, i) => {
                 const dayName = Object.keys(dayColors)[i];
                 if (dayName === day) {
@@ -360,12 +157,10 @@
                     btn.style.backgroundColor = '';
                 }
             });
-
             renderDay(day);
         }
 
         function renderDay(day) {
-            // Clear existing markers and route
             Object.values(markers).forEach(m => m.setMap(null));
             Object.values(infoWindows).forEach(iw => iw.close());
             markers = {};
@@ -382,43 +177,20 @@
         function renderAllDays() {
             document.getElementById('dayTitle').textContent = 'All Locations';
             document.getElementById('hotelSection').style.display = 'none';
-            
-            const listContainer = document.getElementById('locationList');
-            listContainer.innerHTML = '<div class="all-days-hint">🗺️ All locations shown on map, color-coded by day. Click any marker to see details.</div>';
+            document.getElementById('locationList').innerHTML = '<div class="all-days-hint">🗺️ All locations color-coded by day. Click markers for details.</div>';
 
-            // Show all locations, color-coded by day
             locations.forEach(loc => {
                 const marker = new google.maps.Marker({
                     position: { lat: loc.lat, lng: loc.lng },
                     map: map,
                     title: loc.name,
-                    label: {
-                        text: loc.icon,
-                        fontSize: '28px'
-                    },
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 0
-                    }
+                    label: { text: loc.icon, fontSize: '28px' },
+                    icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 }
                 });
 
-                // Create info window with day color
-                const infoContent = `
-                    <div style="padding: 8px; max-width: 280px;">
-                        <h3 style="font-weight: 700; font-size: 16px; margin-bottom: 4px; color: #111;">
-                            ${loc.icon} ${loc.name}
-                        </h3>
-                        <p style="font-size: 13px; color: #666; margin-bottom: 8px;">${loc.address}</p>
-                        ${loc.day ? `<div style="display: inline-block; padding: 4px 8px; border-radius: 4px; color: white; font-size: 11px; font-weight: 600; margin-bottom: 8px; background-color: ${dayColors[loc.day]}">${loc.day}</div>` : ''}
-                        ${loc.time ? `<p style="font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #111;">⏰ ${loc.time}</p>` : ''}
-                        ${loc.notes ? `<p style="font-size: 13px; color: #444;">${loc.notes}</p>` : ''}
-                    </div>
-                `;
+                const infoContent = `<div style="padding: 8px; max-width: 280px;"><h3 style="font-weight: 700; font-size: 16px; margin-bottom: 4px; color: #111;">${loc.icon} ${loc.name}</h3><p style="font-size: 13px; color: #666; margin-bottom: 8px;">${loc.address || ''}</p>${loc.day ? `<div style="display: inline-block; padding: 4px 8px; border-radius: 4px; color: white; font-size: 11px; font-weight: 600; margin-bottom: 8px; background-color: ${dayColors[loc.day]}">${loc.day}</div>` : ''}${loc.time ? `<p style="font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #111;">⏰ ${loc.time}</p>` : ''}${loc.notes ? `<p style="font-size: 13px; color: #444;">${loc.notes}</p>` : ''}</div>`;
 
-                const infoWindow = new google.maps.InfoWindow({
-                    content: infoContent
-                });
-
+                const infoWindow = new google.maps.InfoWindow({ content: infoContent });
                 marker.addListener('click', () => {
                     Object.values(infoWindows).forEach(iw => iw.close());
                     infoWindow.open(map, marker);
@@ -428,7 +200,6 @@
                 infoWindows[loc.id] = infoWindow;
             });
 
-            // Fit bounds
             const bounds = new google.maps.LatLngBounds();
             locations.forEach(loc => bounds.extend({ lat: loc.lat, lng: loc.lng }));
             map.fitBounds(bounds);
@@ -441,7 +212,6 @@
             const dayLocations = locations.filter(l => l.day === day);
             dayLocations.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
 
-            // Render location list
             const listContainer = document.getElementById('locationList');
             listContainer.innerHTML = '';
             
@@ -450,71 +220,44 @@
                 card.className = 'location-card';
                 card.id = `card-${loc.id}`;
                 card.onclick = () => selectLocation(loc.id);
-                card.innerHTML = `
-                    <div class="location-content">
-                        <span class="location-icon">${loc.icon}</span>
-                        <div style="flex: 1;">
-                            <div>
-                                <span class="location-number" style="background-color: ${dayColors[day]}">${index + 1}</span>
-                                <span class="location-name">${loc.name}</span>
-                            </div>
-                            ${loc.time ? `<div class="location-time">⏰ ${loc.time}</div>` : ''}
-                            ${loc.notes ? `<div class="location-notes">${loc.notes}</div>` : ''}
-                        </div>
-                    </div>
-                `;
+                card.innerHTML = `<div class="location-content"><span class="location-icon">${loc.icon}</span><div style="flex: 1;"><div><span class="location-number" style="background-color: ${dayColors[day]}">${index + 1}</span><span class="location-name">${loc.name}</span></div>${loc.time ? `<div class="location-time">⏰ ${loc.time}</div>` : ''}${loc.notes ? `<div class="location-notes">${loc.notes}</div>` : ''}</div></div>`;
                 listContainer.appendChild(card);
 
-                // Add marker
                 const marker = new google.maps.Marker({
                     position: { lat: loc.lat, lng: loc.lng },
                     map: map,
                     title: loc.name,
-                    label: {
-                        text: loc.icon,
-                        fontSize: '28px'
-                    },
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 0
-                    }
+                    label: { text: loc.icon, fontSize: '28px' },
+                    icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 }
                 });
 
                 marker.addListener('click', () => selectLocation(loc.id));
                 markers[loc.id] = marker;
             });
 
-            // Always show hotel
             const hotel = locations.find(l => l.id === 'rome-cavalieri');
             const hotelMarker = new google.maps.Marker({
                 position: { lat: hotel.lat, lng: hotel.lng },
                 map: map,
                 title: hotel.name,
-                label: {
-                    text: hotel.icon,
-                    fontSize: '28px'
-                },
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 0
-                }
+                label: { text: hotel.icon, fontSize: '28px' },
+                icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 }
             });
             markers['rome-cavalieri'] = hotelMarker;
 
-            // Draw route with VERY SUBTLE styling - focus on destinations
+            // VERY subtle route - just a faint hint, NO ARROWS
             const route = dayRoutes[day];
             if (route && route.length > 0) {
                 currentRoute = new google.maps.Polyline({
                     path: route,
                     geodesic: true,
                     strokeColor: dayColors[day],
-                    strokeOpacity: 0.12,
+                    strokeOpacity: 0.25,
                     strokeWeight: 1.5,
                     map: map
                 });
             }
 
-            // Fit bounds
             const bounds = new google.maps.LatLngBounds();
             dayLocations.forEach(loc => bounds.extend({ lat: loc.lat, lng: loc.lng }));
             bounds.extend({ lat: hotel.lat, lng: hotel.lng });
@@ -526,15 +269,9 @@
             if (marker) {
                 map.panTo(marker.getPosition());
                 map.setZoom(15);
-                
-                // Highlight card
-                document.querySelectorAll('.location-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
+                document.querySelectorAll('.location-card').forEach(card => card.classList.remove('selected'));
                 const card = document.getElementById(`card-${id}`);
                 if (card) card.classList.add('selected');
-
-                // Open info window if in All Days view
                 if (selectedDay === 'All Days' && infoWindows[id]) {
                     Object.values(infoWindows).forEach(iw => iw.close());
                     infoWindows[id].open(map, marker);
@@ -542,9 +279,6 @@
             }
         }
     </script>
-
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP-v5ZNxoZ222ScPrDWY9iE3O2V2GhuMA&callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP-v5ZNxoZ222ScPrDWY9iE3O2V2GhuMA&callback=initMap"></script>
 </body>
 </html>
