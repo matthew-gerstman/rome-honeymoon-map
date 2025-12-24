@@ -201,6 +201,46 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #505050;
         }
+
+        .info-window {
+            padding: 8px;
+            max-width: 280px;
+        }
+
+        .info-window-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #111;
+        }
+
+        .info-window-address {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .info-window-day {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-window-time {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #111;
+        }
+
+        .info-window-notes {
+            font-size: 13px;
+            color: #444;
+        }
     </style>
 </head>
 <body>
@@ -235,6 +275,7 @@
         const API_KEY = 'AIzaSyDP-v5ZNxoZ222ScPrDWY9iE3O2V2GhuMA';
         
         const dayColors = {
+            'All Days': '#888888',
             Thursday: '#9333EA',
             Friday: '#DC2626',
             Saturday: '#2563EB',
@@ -244,18 +285,18 @@
         };
 
         const locations = [
-            { id: 'fco-airport', name: 'Rome FCO Airport', lat: 41.8003, lng: 12.2389, day: 'Thursday', time: '7:55 AM arrival', icon: '✈️', notes: 'Arrival from Syracuse via Detroit' },
-            { id: 'rome-cavalieri', name: 'Rome Cavalieri Hotel', lat: 41.9284, lng: 12.4347, icon: '🏨', notes: 'Your base - hilltop location' },
-            { id: 'welcome-jungle', name: 'Welcome to the Jungle', lat: 41.9146, lng: 12.4609, day: 'Friday', time: '12:00 PM', icon: '🎵', notes: 'Record store in Prati - 0.95 mi from hotel' },
-            { id: 'radiation-records', name: 'Radiation Records Pigneto', lat: 41.8881, lng: 12.5294, day: 'Friday', time: '2:00-3:30 PM', icon: '🎵', notes: 'Far east side - 3.92 mi from Welcome to the Jungle' },
-            { id: 'da-enzo', name: 'Da Enzo al 29', lat: 41.8865, lng: 12.4676, day: 'Friday', time: '5:00-6:00 PM walk-in', icon: '🍝', notes: 'Trastevere - 2.65 mi from Radiation Records' },
-            { id: 'nonnas-pasta', name: "Nonna's Pasta Class", lat: 41.8276, lng: 12.4761, day: 'Saturday', time: '12:30 PM', icon: '👵', notes: 'Handmade pasta with Grandma - 6.81 mi from hotel' },
-            { id: 'porta-portese', name: 'Porta Portese Market', lat: 41.8822, lng: 12.4716, day: 'Sunday', time: '11:00 AM', icon: '🛍️', notes: 'Famous flea market in Trastevere' },
-            { id: 'felice-testaccio', name: 'Felice a Testaccio', lat: 41.8785, lng: 12.4771, day: 'Sunday', time: '7:30-9:30 PM', icon: '🍝', notes: 'Dinner reservation in Testaccio' },
-            { id: 'vatican', name: 'Vatican Museums', lat: 41.9065, lng: 12.4536, day: 'Monday', time: '2:00-5:00 PM', icon: '🏛️', notes: 'Vatican tour - 1.22 mi from hotel' },
-            { id: 'la-pergola', name: 'La Pergola', lat: 41.9284, lng: 12.4347, day: 'Monday', time: '7:00 PM', icon: '⭐', notes: '3 Michelin stars - at your hotel!' },
-            { id: 'drink-kong', name: 'Drink Kong', lat: 41.8901, lng: 12.4713, day: 'Monday', time: '9:30 PM', icon: '🍸', notes: 'Cocktails after La Pergola' },
-            { id: 'roma-termini', name: 'Roma Termini Station', lat: 41.9010, lng: 12.5024, day: 'Tuesday', time: '12:00 PM checkout', icon: '🚂', notes: 'Train to Florence' }
+            { id: 'fco-airport', name: 'Rome FCO Airport', address: 'Fiumicino Airport, Rome', lat: 41.8003, lng: 12.2389, day: 'Thursday', time: '7:55 AM arrival', icon: '✈️', notes: 'Arrival from Syracuse via Detroit' },
+            { id: 'rome-cavalieri', name: 'Rome Cavalieri Hotel', address: 'Via Alberto Cadlolo 101', lat: 41.9284, lng: 12.4347, icon: '🏨', notes: 'Your base - hilltop location with panoramic views' },
+            { id: 'welcome-jungle', name: 'Welcome to the Jungle', address: 'Via Monte Zebio 44a', lat: 41.9146, lng: 12.4609, day: 'Friday', time: '12:00 PM', icon: '🎵', notes: 'Record store in Prati - 0.95 mi from hotel (walkable!)' },
+            { id: 'radiation-records', name: 'Radiation Records Pigneto', address: 'Via Rumanello da Forli 13', lat: 41.8881, lng: 12.5294, day: 'Friday', time: '2:00-3:30 PM', icon: '🎵', notes: 'Far east side - 3.92 mi from Welcome to the Jungle' },
+            { id: 'da-enzo', name: 'Da Enzo al 29', address: 'Via dei Vascellari 29', lat: 41.8865, lng: 12.4676, day: 'Friday', time: '5:00-6:00 PM walk-in', icon: '🍝', notes: 'Trastevere - 2.65 mi from Radiation Records' },
+            { id: 'nonnas-pasta', name: "Nonna's Pasta Class", address: 'Piazzale Pino Pascali 18', lat: 41.8276, lng: 12.4761, day: 'Saturday', time: '12:30 PM', icon: '👵', notes: 'Handmade pasta with Grandma - 6.81 mi from hotel' },
+            { id: 'porta-portese', name: 'Porta Portese Market', address: 'Piazza di Porta Portese', lat: 41.8822, lng: 12.4716, day: 'Sunday', time: '11:00 AM', icon: '🛍️', notes: 'Famous flea market in Trastevere' },
+            { id: 'felice-testaccio', name: 'Felice a Testaccio', address: 'Via Pietro Micca 17', lat: 41.8785, lng: 12.4771, day: 'Sunday', time: '7:30-9:30 PM', icon: '🍝', notes: 'Dinner reservation in Testaccio' },
+            { id: 'vatican', name: 'Vatican Museums', address: 'Viale Vaticano', lat: 41.9065, lng: 12.4536, day: 'Monday', time: '2:00-5:00 PM', icon: '🏛️', notes: 'Vatican tour - 1.22 mi from hotel (walkable!)' },
+            { id: 'la-pergola', name: 'La Pergola', address: 'At Rome Cavalieri Hotel', lat: 41.9284, lng: 12.4347, day: 'Monday', time: '7:00 PM', icon: '⭐', notes: '3 Michelin stars - at your hotel! 10-course tasting menu' },
+            { id: 'drink-kong', name: 'Drink Kong', address: 'Viale di Trastevere 1', lat: 41.8901, lng: 12.4713, day: 'Monday', time: '9:30 PM', icon: '🍸', notes: 'Cocktails after La Pergola' },
+            { id: 'roma-termini', name: 'Roma Termini Station', address: 'Piazza dei Cinquecento', lat: 41.9010, lng: 12.5024, day: 'Tuesday', time: '12:00 PM checkout', icon: '🚂', notes: 'Train to Florence (Firenze SMN) - ~1h 30m' }
         ];
 
         const dayRoutes = {
@@ -285,10 +326,9 @@
             Tuesday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9010, lng: 12.5024 }]
         };
 
-        let map, currentRoute, markers = {}, selectedDay = 'Friday';
+        let map, currentRoute, markers = {}, infoWindows = {}, selectedDay = 'Friday';
 
         function initMap() {
-            // Dark mode map styles
             const darkStyles = [
                 { elementType: 'geometry', stylers: [{ color: '#212121' }] },
                 { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
@@ -316,10 +356,10 @@
                 fullscreenControl: true
             });
 
-            // Create day buttons
+            // Create day buttons (including "All Days" overview)
             const dayButtonsContainer = document.getElementById('dayButtons');
             Object.keys(dayColors).forEach(day => {
-                const count = locations.filter(l => l.day === day).length;
+                const count = day === 'All Days' ? locations.filter(l => l.day).length : locations.filter(l => l.day === day).length;
                 const btn = document.createElement('button');
                 btn.className = 'day-button' + (day === selectedDay ? ' active' : '');
                 btn.style.backgroundColor = day === selectedDay ? dayColors[day] : '';
@@ -334,14 +374,12 @@
                 dayButtonsContainer.appendChild(btn);
             });
 
-            // Initial render
             renderDay(selectedDay);
         }
 
         function selectDay(day) {
             selectedDay = day;
             
-            // Update button styles
             document.querySelectorAll('.day-button').forEach((btn, i) => {
                 const dayName = Object.keys(dayColors)[i];
                 if (dayName === day) {
@@ -359,13 +397,110 @@
         function renderDay(day) {
             // Clear existing markers and route
             Object.values(markers).forEach(m => m.setMap(null));
+            Object.values(infoWindows).forEach(iw => iw.close());
             markers = {};
+            infoWindows = {};
             if (currentRoute) currentRoute.setMap(null);
 
-            // Update title
+            if (day === 'All Days') {
+                renderAllDays();
+            } else {
+                renderSingleDay(day);
+            }
+        }
+
+        function renderAllDays() {
+            document.getElementById('dayTitle').textContent = 'All Locations';
+            document.getElementById('locationList').innerHTML = '<p style="color: #666; font-size: 12px; padding: 12px 0;">Click markers on map to see details</p>';
+
+            // Show all locations, color-coded by day
+            locations.forEach(loc => {
+                if (!loc.day) return; // Skip hotel for now
+
+                const marker = new google.maps.Marker({
+                    position: { lat: loc.lat, lng: loc.lng },
+                    map: map,
+                    title: loc.name,
+                    label: {
+                        text: loc.icon,
+                        fontSize: '28px'
+                    },
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 0
+                    }
+                });
+
+                // Create info window
+                const infoContent = `
+                    <div class="info-window">
+                        <h3 class="info-window-title">${loc.icon} ${loc.name}</h3>
+                        <p class="info-window-address">${loc.address}</p>
+                        <div class="info-window-day" style="background-color: ${dayColors[loc.day]}">${loc.day}</div>
+                        ${loc.time ? `<p class="info-window-time">⏰ ${loc.time}</p>` : ''}
+                        ${loc.notes ? `<p class="info-window-notes">${loc.notes}</p>` : ''}
+                    </div>
+                `;
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: infoContent
+                });
+
+                marker.addListener('click', () => {
+                    // Close all other info windows
+                    Object.values(infoWindows).forEach(iw => iw.close());
+                    infoWindow.open(map, marker);
+                });
+
+                markers[loc.id] = marker;
+                infoWindows[loc.id] = infoWindow;
+            });
+
+            // Always show hotel
+            const hotel = locations.find(l => l.id === 'rome-cavalieri');
+            const hotelMarker = new google.maps.Marker({
+                position: { lat: hotel.lat, lng: hotel.lng },
+                map: map,
+                title: hotel.name,
+                label: {
+                    text: hotel.icon,
+                    fontSize: '28px'
+                },
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 0
+                }
+            });
+
+            const hotelInfoContent = `
+                <div class="info-window">
+                    <h3 class="info-window-title">${hotel.icon} ${hotel.name}</h3>
+                    <p class="info-window-address">${hotel.address}</p>
+                    <p class="info-window-notes">${hotel.notes}</p>
+                </div>
+            `;
+
+            const hotelInfoWindow = new google.maps.InfoWindow({
+                content: hotelInfoContent
+            });
+
+            hotelMarker.addListener('click', () => {
+                Object.values(infoWindows).forEach(iw => iw.close());
+                hotelInfoWindow.open(map, hotelMarker);
+            });
+
+            markers['rome-cavalieri'] = hotelMarker;
+            infoWindows['rome-cavalieri'] = hotelInfoWindow;
+
+            // Fit bounds
+            const bounds = new google.maps.LatLngBounds();
+            locations.forEach(loc => bounds.extend({ lat: loc.lat, lng: loc.lng }));
+            map.fitBounds(bounds);
+        }
+
+        function renderSingleDay(day) {
             document.getElementById('dayTitle').textContent = `${day}'s Route`;
 
-            // Get locations for this day
             const dayLocations = locations.filter(l => l.day === day);
             dayLocations.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
 
@@ -376,6 +511,7 @@
             dayLocations.forEach((loc, index) => {
                 const card = document.createElement('div');
                 card.className = 'location-card';
+                card.id = `card-${loc.id}`;
                 card.onclick = () => selectLocation(loc.id);
                 card.innerHTML = `
                     <div class="location-content">
@@ -428,27 +564,20 @@
             });
             markers['rome-cavalieri'] = hotelMarker;
 
-            // Draw route
+            // Draw route with SUBTLE styling
             const route = dayRoutes[day];
             if (route && route.length > 0) {
                 currentRoute = new google.maps.Polyline({
                     path: route,
                     geodesic: true,
                     strokeColor: dayColors[day],
-                    strokeOpacity: 0.9,
-                    strokeWeight: 5,
-                    map: map,
-                    icons: [{
-                        icon: {
-                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                        },
-                        offset: '100%',
-                        repeat: '120px'
-                    }]
+                    strokeOpacity: 0.3,  // Much more subtle
+                    strokeWeight: 2,      // Thinner line
+                    map: map
                 });
             }
 
-            // Fit bounds to show all markers
+            // Fit bounds
             const bounds = new google.maps.LatLngBounds();
             dayLocations.forEach(loc => bounds.extend({ lat: loc.lat, lng: loc.lng }));
             bounds.extend({ lat: hotel.lat, lng: hotel.lng });
@@ -465,7 +594,8 @@
                 document.querySelectorAll('.location-card').forEach(card => {
                     card.classList.remove('selected');
                 });
-                event.currentTarget.classList.add('selected');
+                const card = document.getElementById(`card-${id}`);
+                if (card) card.classList.add('selected');
             }
         }
     </script>
