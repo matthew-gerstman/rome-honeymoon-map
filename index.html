@@ -54,10 +54,7 @@
                     <div class="location-card" onclick="selectLocation('rome-cavalieri')">
                         <div class="location-content">
                             <span class="location-icon">🏨</span>
-                            <div>
-                                <div class="location-name">Rome Cavalieri Hotel</div>
-                                <div class="location-notes">Hilltop location with panoramic views</div>
-                            </div>
+                            <div><div class="location-name">Rome Cavalieri Hotel</div><div class="location-notes">Hilltop with panoramic views</div></div>
                         </div>
                     </div>
                 </div>
@@ -84,6 +81,7 @@
             { id: 'radiation-records', name: 'Radiation Records Pigneto', address: 'Via Rumanello da Forli 13', lat: 41.8881, lng: 12.5294, day: 'Friday', time: '2:00 PM', icon: '🎵', notes: 'Far east - 3.92 mi from Welcome to Jungle' },
             { id: 'da-enzo', name: 'Da Enzo al 29', address: 'Via dei Vascellari 29', lat: 41.8865, lng: 12.4676, day: 'Friday', time: '5:00 PM', icon: '🍝', notes: 'Trastevere walk-in - 2.65 mi from Radiation' },
             { id: 'nonnas-pasta', name: "Nonna's Pasta Class", address: 'Piazzale Pino Pascali 18', lat: 41.8276, lng: 12.4761, day: 'Saturday', time: '12:30 PM', icon: '👵', notes: 'Handmade pasta - 6.81 mi from hotel' },
+            { id: 'santo-palato', name: 'Santo Palato', address: 'Piazza Tarquinia, 4 a/b', lat: 41.8761, lng: 12.5142, day: 'Saturday', time: '7:30 PM', icon: '🍽️', notes: 'Modern Roman trattoria - Chef Sarah Cicolini' },
             { id: 'porta-portese', name: 'Porta Portese Market', address: 'Piazza di Porta Portese', lat: 41.8822, lng: 12.4716, day: 'Sunday', time: '11:00 AM', icon: '🛍️', notes: 'Famous flea market in Trastevere' },
             { id: 'felice-testaccio', name: 'Felice a Testaccio', address: 'Via Pietro Micca 17', lat: 41.8785, lng: 12.4771, day: 'Sunday', time: '7:30 PM', icon: '🍝', notes: 'Dinner reservation in Testaccio' },
             { id: 'vatican', name: 'Vatican Museums', address: 'Viale Vaticano', lat: 41.9065, lng: 12.4536, day: 'Monday', time: '2:00 PM', icon: '🏛️', notes: 'Vatican tour - 1.22 mi from hotel' },
@@ -95,7 +93,7 @@
         const dayRoutes = {
             Thursday: [{ lat: 41.8003, lng: 12.2389 }, { lat: 41.9284, lng: 12.4347 }],
             Friday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9146, lng: 12.4609 }, { lat: 41.8881, lng: 12.5294 }, { lat: 41.8865, lng: 12.4676 }, { lat: 41.9284, lng: 12.4347 }],
-            Saturday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.8276, lng: 12.4761 }, { lat: 41.9284, lng: 12.4347 }],
+            Saturday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.8276, lng: 12.4761 }, { lat: 41.9284, lng: 12.4347 }, { lat: 41.8761, lng: 12.5142 }, { lat: 41.9284, lng: 12.4347 }],
             Sunday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.8822, lng: 12.4716 }, { lat: 41.9284, lng: 12.4347 }, { lat: 41.8785, lng: 12.4771 }, { lat: 41.9284, lng: 12.4347 }],
             Monday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9065, lng: 12.4536 }, { lat: 41.9284, lng: 12.4347 }, { lat: 41.8901, lng: 12.4713 }, { lat: 41.9284, lng: 12.4347 }],
             Tuesday: [{ lat: 41.9284, lng: 12.4347 }, { lat: 41.9010, lng: 12.5024 }]
@@ -245,15 +243,15 @@
             });
             markers['rome-cavalieri'] = hotelMarker;
 
-            // VERY subtle route - just a faint hint, NO ARROWS
+            // BARELY visible route - NO ARROWS, just a faint hint
             const route = dayRoutes[day];
             if (route && route.length > 0) {
                 currentRoute = new google.maps.Polyline({
                     path: route,
                     geodesic: true,
                     strokeColor: dayColors[day],
-                    strokeOpacity: 0.08,
-                    strokeWeight: 1,
+                    strokeOpacity: 0.12,
+                    strokeWeight: 1.5,
                     map: map
                 });
             }
